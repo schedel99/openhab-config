@@ -1,0 +1,2 @@
+Switch State_Markus_Presence                  "Markus anwesend"       <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone1:online" }                                                       
+Switch State_Dani_Presence                    "Dani anwesend"       <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone2:online" }                                                

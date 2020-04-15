@@ -1,0 +1,6 @@
+Dimmer Light_Hue_Brightness	            "Flur Treppe"		 <selflight>	(Lights)	{ channel="hue:0210:default:lamp1:color" }
+Color Light_Hue_Color			        "Flur Treppen Farbe" <colorwheel>               { channel="hue:0210:default:lamp1:color"}
+
+Switch Socket_Mobile_1				    "Mobile 1"           <selfsocket>	(Sockets)   { channel="hue:0010:default:socket1:switch" }
+Switch Socket_Mobile_2				    "Mobile 2"           <selfsocket>   (Sockets)   { channel="hue:0010:default:socket2:switch" }
+

@@ -1,0 +1,5 @@
+Group PersistentHistory
+Group PersistentChart
+
+Group:Switch:OR(ON, OFF) Lights 			"Alle"							<selflight>
+Group:Switch:OR(ON, OFF) Sockets 			"Alle"							<selfsocket>

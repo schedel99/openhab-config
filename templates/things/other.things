@@ -1,0 +1,7 @@
+// log:set DEBUG org.openhab.binding.network
+network:pingdevice:phone1 [ hostname="{{phone1_ip}}", retry=12, timeout=10000, refreshInterval=5000 ] // max 3.0 min
+network:pingdevice:phone2 [ hostname="{{phone2_ip}}", retry=12, timeout=10000, refreshInterval=5000 ] // max 3.0 min
+
+astro:moon:local [ geolocation="{{location}}", interval=300 ]
+astro:sun:local [ geolocation="{{location}}", interval=300 ]
+ntp:ntp:local [ hostname="de.pool.ntp.org", refreshInterval=60, refreshNtp=30 ]

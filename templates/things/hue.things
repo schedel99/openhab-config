@@ -1,0 +1,5 @@
+Bridge hue:bridge:default [ ipAddress="{{hue_ip}}", userName="{{vault_hue_user_id}}" ] {
+	0210 lamp1 [ lightId="1" ]
+	0010 socket1 [ lightId="2" ]
+	0010 socket2 [ lightId="3" ]
+}
