@@ -1,0 +1,16 @@
+sitemap haus label="Main Menu"
+{
+    Frame label="Solar Device" {
+        Text item=Solar_AC_Power
+        Text item=Solar_DC_Power
+        Text item=Solar_DC_Voltage
+        Text item=Solar_DC_Current
+        Text item=Solar_Total_Yield
+        Text item=Solar_Power_Limitation
+    }
+    Frame label="Solar Calculated" {
+        Text item=Solar_Daily_Consumption
+        Text item=Solar_Annual_Consumption
+        Text item=Solar_Daily_Yield
+    }
+}
