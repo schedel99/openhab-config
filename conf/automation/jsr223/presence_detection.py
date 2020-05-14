@@ -6,7 +6,6 @@ from core.triggers import ItemStateChangeTrigger
 class PresenceCheckRule:
     def __init__(self):
         self.triggers = [
-            ItemStateChangeTrigger("State_Markus_Presence"),
             ItemStateChangeTrigger("State_Dani_Presence")
         ]
         
