@@ -21,3 +21,5 @@ class EnergyTotalYieldRefreshRule:
             # triggers solar value update
             sendCommand("Solar_Total_Yield",REFRESH)
             
+            sendCommand("Solar_AC_Power",REFRESH)
+            
