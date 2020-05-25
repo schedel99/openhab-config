@@ -1,4 +1,6 @@
-Number Electric_Meter_HT 					  "Stromverbrauch HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
-Number Electric_Meter_NT 					  "Stromverbrauch NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_Meter_HT 					  "Zählerstand HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_Meter_NT 					  "Zählerstand NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 
-Number Electricity_Current_Demand			  "Aktueller Verbrauch [%.2f KWh]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electricity_Current_Consumption		  "Aktueller Verbrauch [%.2f KWh]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electricity_Current_Daily_Consumption  "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
+Number Electricity_Annual_Consumption		  "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
