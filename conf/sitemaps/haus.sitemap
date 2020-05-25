@@ -16,6 +16,9 @@ sitemap haus label="Main Menu"
     Frame label="Stromverbrauch" {
         Text item=Electric_Meter_HT
         Text item=Electric_Meter_NT
+        Text item=Electricity_Current_Consumption
+        Text item=Electricity_Current_Daily_Consumption
+        Text item=Electricity_Annual_Consumption
     }
     Frame label="Sonnenauf & Untergang" icon="selfsun" {
         Frame label="Tageszeiten"
