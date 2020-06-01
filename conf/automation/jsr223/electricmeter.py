@@ -74,6 +74,9 @@ class EnergyConsumptionRule:
         ]
 
     def execute(self, module, input):
+      
+        return
+      
         now = getNow()
         zaehlerStandCurrent = getItemState("Electric_Meter_HT").doubleValue()
 

@@ -13,12 +13,11 @@ sitemap haus label="Main Menu"
         Text item=Solar_Annual_Consumption
         Text item=Solar_Daily_Yield
     }
-    Frame label="Stromverbrauch" {
-        Text item=Electric_Meter_HT
-        Text item=Electric_Meter_NT
-        Text item=Electricity_Current_Consumption
-        Text item=Electricity_Current_Daily_Consumption
-        Text item=Electricity_Annual_Consumption
+    Frame label="Stromzähler" {
+        Text item=Electric_Meter_HZ_Tag
+        Text item=Electric_Meter_HZ_Nacht
+        Text item=Electric_Meter_VZ_Verbrauch
+        Text item=Electric_Meter_VZ_Einspeisung
     }
     Frame label="Sonnenauf & Untergang" icon="selfsun" {
         Frame label="Tageszeiten"
