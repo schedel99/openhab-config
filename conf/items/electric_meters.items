@@ -4,6 +4,6 @@ Number Electric_Meter_HZ_Nacht 	"Zählerstand NT [%.2f KWh]"  <selfenergy_demand
 Number Electric_Meter_VZ_Verbrauch 	  "Zählerstand Verbrauch [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 Number Electric_Meter_VZ_Einspeisung  "Zählerstand Einspeisung [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 
-#Number Electricity_Current_Consumption		  "Aktueller Verbrauch [%.2f KWh]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
-#Number Electricity_Current_Daily_Consumption  "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
-#Number Electricity_Annual_Consumption		  "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
+//#Number Electricity_Current_Consumption		  "Aktueller Verbrauch [%.2f KWh]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+//#Number Electricity_Current_Daily_Consumption  "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
+//#Number Electricity_Annual_Consumption		  "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
