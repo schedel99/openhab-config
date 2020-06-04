@@ -1,9 +1,18 @@
-Number Electric_Meter_HZ_Tag 	"Zählerstand HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
-Number Electric_Meter_HZ_Nacht 	"Zählerstand NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_Meter_HZ_Tag 	         "Zählerstand HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_Meter_HZ_Nacht 	         "Zählerstand NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 
-Number Electric_Meter_VZ_Verbrauch 	  "Zählerstand Verbrauch [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
-Number Electric_Meter_VZ_Einspeisung  "Zählerstand Einspeisung [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_HZ_Aktueller_Verbrauch   "Aktueller Verbrauch [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electric_HZ_Tagesverbrauch        "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
+Number Electric_HZ_Jahresverbrauch		 "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
 
-//#Number Electricity_Current_Consumption		  "Aktueller Verbrauch [%.2f KWh]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
-//#Number Electricity_Current_Daily_Consumption  "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
-//#Number Electricity_Annual_Consumption		  "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
+Number Electric_Meter_VZ_Verbrauch 	     "Zählerstand Verbrauch [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+
+Number Electric_VZ_Aktueller_Verbrauch   "Aktueller Verbrauch [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electric_VZ_Tagesverbrauch        "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
+Number Electric_VZ_Jahresverbrauch		 "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
+
+Number Electric_Meter_VZ_Einspeisung     "Zählerstand Einspeisung [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+
+Number Electric_VZ_Aktuelle_Einspeisung  "Aktuelle Einspeisung [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electric_VZ_Tageseinspeisung      "Tageseinspeisung [%.2f KWh]"	<selfenergy_demand>
+Number Electric_VZ_Jahreseinspeisung	 "Jahreseinspeisung [%.2f KWh]"	<selfenergy_demand>
