@@ -1,64 +1,115 @@
 sitemap haus label="Main Menu"
 {
-    Frame label="Solar Device" {
-        Text item=Solar_AC_Power
-        Text item=Solar_DC_Power
-        Text item=Solar_DC_Voltage
-        Text item=Solar_DC_Current
-        Text item=Solar_Total_Yield
-        Text item=Solar_Power_Limitation
-    }
-    Frame label="Solar Calculated" {
-        Text item=Solar_Daily_Consumption
-        Text item=Solar_Annual_Consumption
-        Text item=Solar_Daily_Yield
-    }
-    Frame label="Stromzähler" {
-        Text item=Electric_Meter_HZ_Tag
-        Text item=Electric_Meter_HZ_Nacht
-        Text item=Electric_Meter_VZ_Verbrauch
-        Text item=Electric_Meter_VZ_Einspeisung
-    }
-    Frame label="Sonnenauf & Untergang" icon="selfsun" {
-        Frame label="Tageszeiten"
-        {
-            Text item=Dawn_Time
-            Text item=Sunrise_Time
-            Text item=Sunset_Time
-            Text item=Dusk_Time
+    Frame label="Strom" {
+        Text label="Solar" icon="selfenergy_solar" item=Solar_Message {
+            Frame label="Solar Device" {
+                Text item=Solar_AC_Power
+                Text item=Solar_DC_Power
+                Text item=Solar_DC_Voltage
+                Text item=Solar_DC_Current
+                Text item=Solar_Power_Limitation
+                Text item=Solar_Total_Yield
+            }
+            Frame label="Solar Ertrag" {
+                Text item=Solar_Daily_Yield
+                Text item=Solar_Annual_Yield
+            }
+            Frame label="Solar Verbrauch" {
+                Text item=Solar_Daily_Consumption
+                Text item=Solar_Annual_Consumption
+            }
+            Frame label="Auswertung" {
+                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                Webview url="/static/grafana/solar.html?fromItem=Chart_From" icon=none height=14
+            }
         }
-        Frame label="Sonnenstand"
-        {
-            Text item=Sun_Azimuth        
-            Text item=Sun_Elevation      
-            Text item=Total_Radiation    
-            Text item=Diffuse_Radiation  
-        }
-        Frame label="Details"
-        {
-            Text item=Zodiac_Name          
-            Text item=Season             
-            Text item=MoonPhase          
-            Text item=FullMoon         
-            Text item=NewMoon          
-            Text item=Eclipse_Time       
-        }
-        Frame label="Begin & Ende"
-        {
-            Text item=Spring_Time		
-            Text item=Summer_Time		
-            Text item=Autumn_Time		
-            Text item=Winter_Time		
+        Text label="Zähler" icon="selfenergy" item=Electric_Message {
+            Frame label="Strom Bezug" {
+                Text item=Electric_Meter_VZ_Verbrauch
+                Text item=Electric_VZ_Aktueller_Verbrauch
+                Text item=Electric_VZ_Tagesverbrauch
+                Text item=Electric_VZ_Jahresverbrauch
+            }
+            Frame label="Strom Einspeisung" {
+                Text item=Electric_Meter_VZ_Einspeisung
+                Text item=Electric_VZ_Aktuelle_Einspeisung
+                Text item=Electric_VZ_Tageseinspeisung
+                Text item=Electric_VZ_Jahreseinspeisung
+            }
+            Frame label="Heizung" {
+                Text item=Electric_Meter_HZ_Tag
+                Text item=Electric_Meter_HZ_Nacht
+            }
         }
     }
-    Frame label="Presence" {
-        Text item=State_Markus_Presence label="Markus anwesend [%s]"
-        Text item=State_Dani_Presence label="Dani anwesend [%s]"
-    }
-    Frame label="HUE" {
-        Slider item=Light_Hue_Brightness label="Helligkeit [%d %%]"
-        Colorpicker item=Light_Hue_Color label="Farbe"
-        Switch item=Socket_Mobile_1
-        Switch item=Socket_Mobile_2
+    Frame label="Sonstiges" {
+        Text label="Sonnenauf & Untergang" icon="selfsun" {
+            Frame label="Tageszeiten"
+            {
+                Text item=Dawn_Time
+                Text item=Sunrise_Time
+                Text item=Sunset_Time
+                Text item=Dusk_Time
+            }
+            Frame label="Sonnenstand"
+            {
+                Text item=Sun_Azimuth        
+                Text item=Sun_Elevation      
+                Text item=Total_Radiation    
+                Text item=Diffuse_Radiation  
+            }
+            Frame label="Details"
+            {
+                Text item=Zodiac_Name          
+                Text item=Season             
+                Text item=MoonPhase          
+                Text item=FullMoon         
+                Text item=NewMoon          
+                Text item=Eclipse_Time       
+            }
+            Frame label="Begin & Ende"
+            {
+                Text item=Spring_Time		
+                Text item=Summer_Time		
+                Text item=Autumn_Time		
+                Text item=Winter_Time		
+            }
+        }
+        Group item=FritzboxDslStatus label="DSL Status [MAP(network_states.map):%s]" {
+            Frame label="Status" {
+                Text item=FritzboxDslEnable
+                Text item=FritzboxDslStatus
+                Text item=FritzboxUptime
+                Switch item=FritzboxGuestWifi
+            }
+            Frame label="Verbindung" {
+                Text item=FritzboxDslUpstreamCurrRate
+                Text item=FritzboxDslDownstreamCurrRate
+                Text item=FritzboxDslUpstreamMaxRate
+                Text item=FritzboxDslDownstreamMaxRate
+                Text item=FritzboxDslUpstreamNoiseMargin
+                Text item=FritzboxDslDownstreamNoiseMargin
+                Text item=FritzboxDslUpstreamAttenuation
+                Text item=FritzboxDslDownstreamAttenuation
+            }
+            Frame label="Fehler" {
+                Text item=FritzboxDslFECErrors
+                Text item=FritzboxDslHECErrors
+                Text item=FritzboxDslCRCErrors
+            }
+        }
+        Text label="Presence" icon="parents_1_1" {
+            Text item=State_Markus_Presence label="Markus anwesend [%s]"
+            Text item=State_Dani_Presence label="Dani anwesend [%s]"
+            Text item=State_Oskar_Presence label="Oskar anwesend [%s]"
+        }
+        Text label="Licht" icon="light" {
+            Slider item=Light_Hue_Brightness label="Helligkeit [%d %%]"
+            Colorpicker item=Light_Hue_Color label="Farbe"
+        }
+        Text label="Steckdosen" icon="selfsocket" {
+            Switch item=Socket_Mobile_1
+            Switch item=Socket_Mobile_2
+        }
     }
 }

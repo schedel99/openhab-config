@@ -170,12 +170,41 @@ class rule(object):
 class NotInitialisedException(Exception):
     pass
 
+def startTimer(log, duration, callback, args=[], kwargs={}, oldTimer = None, groupCount = 0 ):
+    if oldTimer != None:
+        oldTimer.cancel()
+        groupCount = oldTimer.groupCount
+            
+    groupCount = groupCount - 1
+    
+    if groupCount == 0:
+        callback(*args, **kwargs)
+        
+        return None
+
+    timer = createTimer(log, duration, callback, args, kwargs )
+    timer.start()
+    timer.groupCount = groupCount
+
+    return timer
 
 class createTimer:
-    def __init__(self,duration, callback, args=[], kwargs={}):
-        self.timer = threading.Timer(duration, callback, args, kwargs)
+    def __init__(self,log, duration, callback, args=[], kwargs={}):
+        self.log = log
+        self.callback = callback
+        self.args = args
+        self.kwargs = kwargs
+        
+        self.timer = threading.Timer(duration, self.handler)
         #log.info(str(self.timer))
         
+    def handler(self):
+        try:
+            self.callback(*self.args, **self.kwargs)
+        except:
+            self.log.error(u"{}".format(traceback.format_exc()))
+            raise
+          
     def start(self):
         if not self.timer.isAlive():
             #log.info("timer started")
@@ -341,18 +370,14 @@ def getNow():
 def itemStateNewerThen(itemOrName, refDate):
     return getItemState(itemOrName).calendar.getTimeInMillis() > refDate.getMillis()
 
-
 def itemStateOlderThen(itemOrName, refDate):
     return not itemStateNewerThen(itemOrName, refDate)
-
 
 def itemLastUpdateNewerThen(itemOrName, refDate):
     return getItemLastUpdate(itemOrName).isAfter(refDate)
 
-
 def itemLastUpdateOlderThen(itemOrName, refDate):
     return not itemLastUpdateNewerThen(itemOrName, refDate)
-
 
 def getItemLastUpdate(itemOrName):
     item = _getItem(itemOrName)
@@ -360,6 +385,19 @@ def getItemLastUpdate(itemOrName):
     if lastUpdate is None:
         raise NotInitialisedException("Item lastUpdate for '" + item.getName() + "' not found")
     return lastUpdate
+
+def itemLastChangeNewerThen(itemOrName, refDate):
+    return getItemLastChange(itemOrName).isAfter(refDate)
+
+def itemLastChangeOlderThen(itemOrName, refDate):
+    return not itemLastChangeNewerThen(itemOrName, refDate)
+
+def getItemLastChange(itemOrName):
+    item = _getItem(itemOrName)
+    lastChange = PersistenceExtensions.lastUpdate(item,"jdbc")
+    if lastChange is None:
+        raise NotInitialisedException("Item lastChange for '" + item.getName() + "' not found")
+    return lastChange
 
 def getStableItemState( now, itemName, checkTimeRange ):
         
@@ -373,8 +411,7 @@ def getStableItemState( now, itemName, checkTimeRange ):
     # get and cache "real" item to speedup getHistoricItemEntry. Otherwise "getHistoricItemEntry" will lookup the item by its name every time
     item = getItem(itemName)
 
-    # use the first time the default service (mapdb) which is faster then query mysql
-    entry = PersistenceExtensions.historicState(item, now)
+    entry = getHistoricItemEntry(item, now)
     
     while True:
         currentStartMillis = entry.getTimestamp().getTime()
@@ -402,10 +439,14 @@ def getStableItemState( now, itemName, checkTimeRange ):
     return value
 
 # *** Notifications ***
-def sendNotification(header, message, url=None):
-
-    if url == None:
-        Telegram.sendTelegram("bot1", "*" + header + "*: " + message)
+def sendNotification(header, message, url=None, recipient=None):
+    if recipient != None:
+        if url == None:
+            Telegram.sendTelegram(recipient, "*" + header + "*: " + message)
+        else:
+            Telegram.sendTelegramPhoto(recipient, url, "*" + header + "*: " + message)
     else:
-        Telegram.sendTelegramPhoto("bot1", url, "*" + header + "*: " + message)
-    #Pushover.pushover(header + ": " + message)
+        if url == None:
+            Telegram.sendTelegram("*" + header + "*: " + message)
+        else:
+            Telegram.sendTelegramPhoto(url, "*" + header + "*: " + message)
