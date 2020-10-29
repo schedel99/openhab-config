@@ -15,4 +15,4 @@ class PresenceCheckRule:
         itemName = input['event'].getItemName()
         itemState = input['event'].getItemState()
         
-        sendNotification(u"{}".format(itemName), u"{}".format(itemState), recipients = ["bot1"])
+        sendNotification(u"{}".format(itemName), u"{}".format(itemState), recipients = ["bot_markus"])

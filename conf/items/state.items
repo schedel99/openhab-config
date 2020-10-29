@@ -1,6 +1,6 @@
-Switch State_Markus_Presence                  "Markus anwesend"       <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone1:online" }                                                       
-Switch State_Dani_Presence                    "Dani anwesend"         <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone2:online" }                                                
-Switch State_Oskar_Presence                   "Oskar anwesend"        <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone3:online" }                                                
+Switch State_Markus_Presence                  "Markus anwesend"       <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone_markus:online" }                                                       
+Switch State_Dani_Presence                    "Dani anwesend"         <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone_dani:online" }                                                
+Switch State_Oskar_Presence                   "Oskar anwesend"        <selfinfo>          (PersistentHistory) { channel="network:pingdevice:phone_oskar:online" }                                                
 
 Number State_Server 						  "Serverstatus [MAP(server_status.map):%s]"  			<selferror>
 
