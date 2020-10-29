@@ -1,4 +1,4 @@
-from custom.helper import log, rule, getItemState, sendNotification
+from shared.helper import log, rule, getItemState, sendNotification
 from core.triggers import ItemStateChangeTrigger
 
 

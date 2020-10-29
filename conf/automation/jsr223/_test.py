@@ -1,4 +1,4 @@
-from custom.helper import rule
+from shared.helper import rule
 from core.triggers import CronTrigger
 
 @rule("_test.py")

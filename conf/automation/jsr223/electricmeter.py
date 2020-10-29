@@ -1,7 +1,7 @@
 from org.joda.time import DateTime
 from org.joda.time.format import DateTimeFormat
 
-from custom.helper import rule, getNow, getHistoricItemEntry, getHistoricItemState, getItemLastUpdate, getItemState, postUpdate, postUpdateIfChanged
+from shared.helper import rule, getNow, getHistoricItemEntry, getHistoricItemState, getItemLastUpdate, getItemState, postUpdate, postUpdateIfChanged
 from core.triggers import CronTrigger, ItemStateChangeTrigger
 
 from org.joda.time import DateTime
