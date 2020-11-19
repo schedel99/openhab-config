@@ -61,6 +61,9 @@ class SolarDailyYieldRule:
           CronTrigger("1 0 0 * * ?")
         ]
         
+        currentEinspeisung = getItemState("Electric_VZ_Tageseinspeisung").doubleValue()
+        self.log.info("{}".format(currentEinspeisung))
+        
     def execute(self, module, input):
         now = getNow()
 
