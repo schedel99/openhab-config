@@ -5,6 +5,6 @@ Switch State_Oskar_Presence                   "Oskar anwesend"        <selfinfo>
 
 
 
-Number State_Server 						  "Serverstatus [MAP(server_status.map):%s]"  			<selferror>
+Number pOther_State_Message_Server 			  "Serverstatus [MAP(server_status.map):%s]"  			<selferror>
 
 String Chart_From                             "Zeitraum"                      <selfcalendar>
