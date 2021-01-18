@@ -13,3 +13,13 @@ Number  FritzboxDslHECErrors "HEC Fehler [%s]"   <error> {fritzboxtr064="dslHECE
 Number  FritzboxDslCRCErrors "CRC Fehler [%s]"   <error> {fritzboxtr064="dslCRCErrors"} 
 Number  FritzboxUptime       "Uptime [JS(network_uptime.js):%s]" <line>        {fritzboxtr064="upTime"}
 Switch  FritzboxGuestWifi    "Gäste WLAN"       <network>         {fritzboxtr064="wifiGuestSwitch"}
+
+String  FritzboxWanAccessType         "WAN Typ [%s]"                                        <selfinfo> {fritzboxtr064="wanWANAccessType"}
+Number  FritzboxWanUpstreamMaxRate    "WAN Upstream [JS(network_bit_to_mbit.js):%s]"        <flowpipe> {fritzboxtr064="wanLayer1UpstreamMaxBitRate"}
+Number  FritzboxWanDownstreamMaxRate  "WAN Downstream [JS(network_bit_to_mbit.js):%s]"      <returnpipe> {fritzboxtr064="wanLayer1DownstreamMaxBitRate"}
+String  FritzboxWanPhysicalLinkStatus "WAN Link Status [%s]"                                <selfinfo>  {fritzboxtr064="wanPhysicalLinkStatus"}
+Number FritzboxWanTotalBytesSent      "WAN Gesamt gesendets [%s]" <flowpipe> {fritzboxtr064="wanTotalBytesSent"}
+Number FritzboxWanTotalBytesReceived  "WAN Gesamt empfangen [%s]" <returnpipe> {fritzboxtr064="wanTotalBytesReceived"}
+
+Number FritzboxWanUpstreamCurrRate   "Upstream Aktuell [JS(network_bit_to_mbit.js):%s]" <flowpipe> (PersistentChart,PersistentHistory)
+Number FritzboxWanDownstreamCurrRate "Downstream Aktuell [JS(network_bit_to_mbit.js):%s]" <returnpipe> (PersistentChart,PersistentHistory)

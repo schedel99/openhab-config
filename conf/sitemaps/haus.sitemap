@@ -75,6 +75,29 @@ sitemap haus label="Main Menu"
                 Text item=Winter_Time		
             }
         }
+        Text label="Wetter" icon="selfsun" {
+            Frame label="Wetter" {
+                Text item=WeatherStation_Temperature
+                Text item=WeatherStation_Humidity
+                Text item=WeatherStation_Pressure
+                Text item=WeatherStation_Dewpoint
+            }
+            Frame label="Regen" {
+                Text item=WeatherStation_Rain_Current
+                Text item=WeatherStation_Rain_Daily
+            }
+            Frame label="Wind" {
+                Text item=WeatherStation_Wind_Current
+                Text item=WeatherStation_Wind_Speed
+                Text item=WeatherStation_Wind_Gust
+                Text item=WeatherStation_Wind_Direction
+            }
+            Frame label="Sonne" {
+                Text item=WeatherStation_Solar_Power
+                Text item=WeatherStation_Light_Level
+                Text item=WeatherStation_UV_Index
+            }
+        }
         Group item=FritzboxDslStatus label="DSL Status [MAP(network_states.map):%s]" {
             Frame label="Status" {
                 Text item=FritzboxDslEnable
@@ -82,7 +105,15 @@ sitemap haus label="Main Menu"
                 Text item=FritzboxUptime
                 Switch item=FritzboxGuestWifi
             }
-            Frame label="Verbindung" {
+            Frame label="WAN Verbindung" {
+                Text item=FritzboxWanAccessType
+                Text item=FritzboxWanPhysicalLinkStatus
+                Text item=FritzboxWanUpstreamCurrRate
+                Text item=FritzboxWanDownstreamCurrRate
+                Text item=FritzboxWanUpstreamMaxRate
+                Text item=FritzboxWanDownstreamMaxRate
+            }
+            Frame label="DSL Verbindung" {
                 Text item=FritzboxDslUpstreamCurrRate
                 Text item=FritzboxDslDownstreamCurrRate
                 Text item=FritzboxDslUpstreamMaxRate
@@ -96,6 +127,19 @@ sitemap haus label="Main Menu"
                 Text item=FritzboxDslFECErrors
                 Text item=FritzboxDslHECErrors
                 Text item=FritzboxDslCRCErrors
+            }
+            Frame label="Auswertung" {
+                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                Webview url="/static/custom/grafana/internet.html?fromItem=Chart_From" icon=none height=12
+            }
+        }
+        Group item=State_Server {
+            Frame label="Daten" {
+                Text item=State_Server
+            }
+            Frame label="Auswertung" {
+                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                Webview url="/static/custom/grafana/server.html?fromItem=Chart_From" icon=none height=72
             }
         }
         Text label="Presence" icon="parents_1_1" {
