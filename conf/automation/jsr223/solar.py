@@ -1,11 +1,10 @@
 from org.joda.time import DateTime
 from org.joda.time.format import DateTimeFormat
 
-from shared.helper import rule, getNow, getItemState, itemStateOlderThen, itemStateNewerThen, getHistoricItemState, sendCommand, postUpdateIfChanged
+from shared.helper import rule, getNow, getItemState, itemStateOlderThen, itemStateNewerThen, getHistoricItemState, sendCommand, postUpdateIfChanged, itemLastUpdateOlderThen, getItemLastUpdate
 from core.triggers import CronTrigger, ItemStateChangeTrigger
 
 from org.eclipse.smarthome.core.types.RefreshType import REFRESH
-
 
 @rule("solar.py")
 class SolarTotalYieldRefreshRule:
@@ -27,6 +26,10 @@ class SolarTotalYieldRefreshRule:
             dailyConsumption = getItemState("Solar_Daily_Yield").doubleValue()
             
             msg = "{} W, {:.2f} kWh".format(acPower,dailyConsumption)
+            
+            if itemLastUpdateOlderThen("Solar_Total_Yield", getNow().minusMinutes(15)) and itemStateOlderThen("Dawn_Time", now.minusMinutes(60)):
+                self.log.error("Solar values not updated")
+            
         else:
             msg = "Inaktiv"
             
@@ -60,9 +63,6 @@ class SolarDailyYieldRule:
           ItemStateChangeTrigger("Electric_VZ_Tageseinspeisung"),
           CronTrigger("1 0 0 * * ?")
         ]
-        
-        currentEinspeisung = getItemState("Electric_VZ_Tageseinspeisung").doubleValue()
-        self.log.info("{}".format(currentEinspeisung))
         
     def execute(self, module, input):
         now = getNow()

@@ -20,10 +20,10 @@ sitemap haus label="Main Menu"
             }
             Frame label="Auswertung" {
                 Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
-                Webview url="/static/custom/grafana/solar.html?fromItem=Chart_From" icon=none height=14
+                Webview url="/static/custom/grafana/solar.html?fromItem=Chart_From" height=14
             }
         }
-        Text label="Zähler" icon="selfenergy" item=Electric_Message {
+        Text label="Zähler (Strom)" icon="selfenergy" item=Electric_VZ_Message {
             Frame label="Strom Bezug" {
                 Text item=Electric_Meter_VZ_Verbrauch
                 Text item=Electric_VZ_Aktueller_Verbrauch
@@ -36,13 +36,62 @@ sitemap haus label="Main Menu"
                 Text item=Electric_VZ_Tageseinspeisung
                 Text item=Electric_VZ_Jahreseinspeisung
             }
+        }
+        Text label="Zähler (Heizung)" icon="selfenergy" item=Electric_HZ_Tagesverbrauch {
             Frame label="Heizung" {
+                Text item=Electric_HZ_Aktueller_Verbrauch
+                Text item=Electric_HZ_Tagesverbrauch
+                Text item=Electric_HZ_Jahresverbrauch
+            }
+            Frame label="Heizung Tag" {
                 Text item=Electric_Meter_HZ_Tag
+                Text item=Electric_HZ_Tag_Aktueller_Verbrauch
+                Text item=Electric_HZ_Tag_Tagesverbrauch
+                Text item=Electric_HZ_Tag_Jahresverbrauch
+            }
+            Frame label="Heizung Nacht" {
                 Text item=Electric_Meter_HZ_Nacht
+                Text item=Electric_HZ_Nacht_Aktueller_Verbrauch
+                Text item=Electric_HZ_Nacht_Tagesverbrauch
+                Text item=Electric_HZ_Nacht_Jahresverbrauch
+            }
+            Frame label="Auswertung" {
+                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                Webview url="/static/custom/grafana/strom_heizung.html?fromItem=Chart_From" height=14
             }
         }
     }
-    Frame label="Sonstiges" {
+    Frame label="Wetter" {
+        Text label="Aktuelles Wetter" icon="selfsun" {
+            Frame label="Wetter" {
+                Text item=WeatherStation_Temperature
+                Text item=WeatherStation_Humidity
+                Text item=WeatherStation_Pressure
+                Text item=WeatherStation_Dewpoint
+            }
+            Frame label="Regen" {
+                Text item=WeatherStation_Rain_Current
+                Text item=WeatherStation_Rain_Daily
+            }
+            Frame label="Wind" {
+                Text item=WeatherStation_Wind_Current
+                Text item=WeatherStation_Wind_Speed
+                Text item=WeatherStation_Wind_Gust
+                Text item=WeatherStation_Wind_Direction
+            }
+            Frame label="Sonne" {
+                Text item=WeatherStation_Solar_Power
+                Text item=WeatherStation_Light_Level
+                Text item=WeatherStation_UV_Index
+            }
+            Frame label="Auswertung" {
+                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                Webview url="/static/custom/grafana/wetter.html?fromItem=Chart_From" height=48
+            }
+        }
+        Text label="Wetterbericht" icon="selfrain" {
+            Webview url="/weather/weatherDetailOverview.php" height=20
+        }
         Text label="Sonnenauf & Untergang" icon="selfsun" {
             Frame label="Tageszeiten"
             {
@@ -75,29 +124,8 @@ sitemap haus label="Main Menu"
                 Text item=Winter_Time		
             }
         }
-        Text label="Wetter" icon="selfsun" {
-            Frame label="Wetter" {
-                Text item=WeatherStation_Temperature
-                Text item=WeatherStation_Humidity
-                Text item=WeatherStation_Pressure
-                Text item=WeatherStation_Dewpoint
-            }
-            Frame label="Regen" {
-                Text item=WeatherStation_Rain_Current
-                Text item=WeatherStation_Rain_Daily
-            }
-            Frame label="Wind" {
-                Text item=WeatherStation_Wind_Current
-                Text item=WeatherStation_Wind_Speed
-                Text item=WeatherStation_Wind_Gust
-                Text item=WeatherStation_Wind_Direction
-            }
-            Frame label="Sonne" {
-                Text item=WeatherStation_Solar_Power
-                Text item=WeatherStation_Light_Level
-                Text item=WeatherStation_UV_Index
-            }
-        }
+    }
+    Frame label="Sonstiges" {
         Group item=FritzboxDslStatus label="DSL Status [MAP(network_states.map):%s]" {
             Frame label="Status" {
                 Text item=FritzboxDslEnable
@@ -130,7 +158,7 @@ sitemap haus label="Main Menu"
             }
             Frame label="Auswertung" {
                 Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
-                Webview url="/static/custom/grafana/internet.html?fromItem=Chart_From" icon=none height=12
+                Webview url="/static/custom/grafana/internet.html?fromItem=Chart_From" height=12
             }
         }
         Group item=State_Server {
@@ -139,7 +167,7 @@ sitemap haus label="Main Menu"
             }
             Frame label="Auswertung" {
                 Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
-                Webview url="/static/custom/grafana/server.html?fromItem=Chart_From" icon=none height=72
+                Webview url="/static/custom/grafana/server.html?fromItem=Chart_From" height=72
             }
         }
         Text label="Presence" icon="parents_1_1" {

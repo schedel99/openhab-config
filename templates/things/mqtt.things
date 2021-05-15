@@ -1,4 +1,4 @@
-Bridge mqtt:broker:cloud [ host="mosquitto.cloud", secure=false ]
+Bridge mqtt:broker:cloud [ host="cloud_mosquitto", secure=false ]
 {
     Thing topic weatherstation "Wetterstation" @ "Geräte" {
         Type number : rain_current "rain current" [ stateTopic="hhees/pOutdoor_WeatherStation_Rain_Current" ]

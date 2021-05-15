@@ -1,6 +1,3 @@
-Number Electric_Meter_HZ_Tag 	         "Zählerstand HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
-Number Electric_Meter_HZ_Nacht 	         "Zählerstand NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
-
 Number Electric_Meter_VZ_Verbrauch 	     "Zählerstand [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 Number Electric_Meter_VZ_Einspeisung     "Zählerstand [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
 
@@ -12,11 +9,23 @@ Number Electric_VZ_Aktuelle_Einspeisung  "Aktuell [%.2f Watt]"	<selfenergy_deman
 Number Electric_VZ_Tageseinspeisung      "Tag [%.2f KWh]"	<selfenergy_demand>
 Number Electric_VZ_Jahreseinspeisung	 "Jahr [%.2f KWh]"	<selfenergy_demand>
 
+String Electric_VZ_Message				 "Status [%s]"	                <selfenergy>
 
 
+
+Number Electric_Meter_HZ_Tag 	         "Zählerstand HT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+Number Electric_Meter_HZ_Nacht 	         "Zählerstand NT [%.2f KWh]"  <selfenergy_demand>   (PersistentHistory)
+
+Number Electric_HZ_Tag_Aktueller_Verbrauch   "Aktueller Verbrauch (HZ Tag) [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electric_HZ_Tag_Tagesverbrauch        "Tagesverbrauch (HZ Tag) [%.2f KWh]"	<selfenergy_demand>
+Number Electric_HZ_Tag_Jahresverbrauch		 "Jahresverbrauch (HZ Tag) [%.2f KWh]"	<selfenergy_demand>
+
+Number Electric_HZ_Nacht_Aktueller_Verbrauch "Aktueller Verbrauch (HZ Nacht) [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
+Number Electric_HZ_Nacht_Tagesverbrauch      "Tagesverbrauch (HZ Nacht) [%.2f KWh]"	<selfenergy_demand>
+Number Electric_HZ_Nacht_Jahresverbrauch	 "Jahresverbrauch (HZ Nacht) [%.2f KWh]"	<selfenergy_demand>
 
 Number Electric_HZ_Aktueller_Verbrauch   "Aktueller Verbrauch [%.2f Watt]"	<selfenergy_demand>	(PersistentChart,PersistentHistory)
 Number Electric_HZ_Tagesverbrauch        "Tagesverbrauch [%.2f KWh]"	<selfenergy_demand>
 Number Electric_HZ_Jahresverbrauch		 "Jahresverbrauch [%.2f KWh]"	<selfenergy_demand>
 
-String Electric_Message					 "Status [%s]"	                <selfenergy>
+String Electric_HZ_Message				 "Status [%s]"	                <selfenergy>
