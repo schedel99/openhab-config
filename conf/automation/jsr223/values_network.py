@@ -1,5 +1,6 @@
-from shared.helper import rule, getNow, itemLastUpdateOlderThen, sendNotificationToAllAdmins, getItemState, postUpdateIfChanged
+from shared.helper import rule, itemLastUpdateOlderThen, sendNotificationToAllAdmins, getItemState, postUpdateIfChanged
 from core.triggers import CronTrigger, ItemStateChangeTrigger
+from java.time import ZonedDateTime
 
 @rule("values_network.py")
 class ValuesNetworkOutgoingTrafficRule:
@@ -12,7 +13,7 @@ class ValuesNetworkOutgoingTrafficRule:
     def execute(self, module, input):
         #self.log.info(u"{}".format(input))
 
-        now = getNow().getMillis()
+        now = ZonedDateTime.now().toInstant().toEpochMilli()
 
         if self.lastUpdate != -1:
             currentValue = input['event'].getItemState().longValue()
@@ -42,7 +43,7 @@ class ValuesNetworkIncommingTrafficRule:
     def execute(self, module, input):
         #self.log.info(u"{}".format(input))
 
-        now = getNow().getMillis()
+        now = ZonedDateTime.now().toInstant().toEpochMilli()
 
         if self.lastUpdate != -1:
             currentValue = input['event'].getItemState().longValue()

@@ -1,19 +1,16 @@
-from org.joda.time import DateTime
-from org.joda.time.format import DateTimeFormat
-
-from shared.helper import rule, getNow, getHistoricItemEntry, getHistoricItemState, getItemLastUpdate, getItemState, postUpdate, postUpdateIfChanged, itemLastUpdateOlderThen
+from java.time import ZonedDateTime, Instant, ZoneId
+from java.time.format import DateTimeFormatter
+ 
+from shared.helper import rule, getHistoricItemEntry, getHistoricItemState, getItemLastUpdate, getItemState, postUpdate, postUpdateIfChanged, itemLastUpdateOlderThen
 from core.triggers import CronTrigger, ItemStateChangeTrigger
 
-from org.joda.time import DateTime
-from org.joda.time.format import DateTimeFormat
-
-dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
+dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
 def getHistoricReference(log, itemName, valueTime, outdatetTime, messureTime, intervalTime):
     endTime = getItemLastUpdate(itemName)
-    endTimestampInMillis = endTime.getMillis()
+    endTimestampInMillis = endTime.toInstant().toEpochMilli()
 
-    nowInMillis = getNow().getMillis()
+    nowInMillis = ZonedDateTime.now().toInstant().toEpochMilli()
  
     if endTimestampInMillis < nowInMillis - ( outdatetTime * 1000 ):
         log.info( u"No consumption. Last value is too old." )
@@ -26,7 +23,7 @@ def getHistoricReference(log, itemName, valueTime, outdatetTime, messureTime, in
     startTimestampInMillis = endTimestampInMillis
     startValue = 0
 
-    currentTime = DateTime( startTimestampInMillis - 1 )
+    currentTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startTimestampInMillis - 1), ZoneId.systemDefault())
 
     itemCount = 0
 
@@ -37,7 +34,7 @@ def getHistoricReference(log, itemName, valueTime, outdatetTime, messureTime, in
 
         startValue = historicEntry.getState().doubleValue()
 
-        _millis = historicEntry.getTimestamp().getTime()
+        _millis = historicEntry.getTimestamp().toInstant().toEpochMilli()
 
         # current item is older then the allowed timeRange
         if _millis < minMessuredTimestampInMillis:
@@ -53,7 +50,7 @@ def getHistoricReference(log, itemName, valueTime, outdatetTime, messureTime, in
             break
         else:
             startTimestampInMillis = _millis
-            currentTime = DateTime( startTimestampInMillis - 1 )
+            currentTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startTimestampInMillis - 1), ZoneId.systemDefault())
 
     durationInSeconds = round(float(endTimestampInMillis - startTimestampInMillis) / 1000.0)
     value = ( (endValue - startValue) / durationInSeconds) * valueTime
@@ -65,8 +62,9 @@ def getHistoricReference(log, itemName, valueTime, outdatetTime, messureTime, in
     else:
         display_value = value
 
-    startTime = DateTime(startTimestampInMillis)
-    log.info( u"Consumption {} messured from {} ({}) to {} ({})".format(display_value,startValue,dateTimeFormatter.print(startTime),endValue,dateTimeFormatter.print(endTime)))
+    startTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startTimestampInMillis), ZoneId.systemDefault())
+
+    log.info( u"Consumption {} messured from {} ({}) to {} ({})".format(display_value,startValue,dateTimeFormatter.format(startTime),endValue,dateTimeFormatter.format(endTime)))
 
     return value
 
@@ -85,7 +83,7 @@ class EnergyVZSupply5MinRule:
 
         postUpdateIfChanged("Electric_VZ_Aktuelle_Einspeisung",watt5Min)
         
-        if itemLastUpdateOlderThen("Electric_Meter_VZ_Einspeisung", getNow().minusMinutes(60)):
+        if itemLastUpdateOlderThen("Electric_Meter_VZ_Einspeisung", ZonedDateTime.now().minusMinutes(60)):
             self.log.error("Electric meter supply values not updated")
 
 @rule("electricmeter.py")
@@ -98,17 +96,19 @@ class EnergyVZSupplyRule:
 
     def execute(self, module, input):
       
-        now = getNow()
+        now = ZonedDateTime.now()
         zaehlerStandCurrent = getItemState("Electric_Meter_VZ_Einspeisung").doubleValue()
 
         # *** Tagesverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Einspeisung", now.withTimeAtStartOfDay() ).doubleValue()
+        
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Einspeisung", now.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentSupply = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_VZ_Tageseinspeisung",currentSupply)
 
         # *** Jahresverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Einspeisung", now.withDate(now.getYear(), 1, 1 ).withTimeAtStartOfDay()).doubleValue()
+        refDate = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Einspeisung", refDate.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentSupply = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_VZ_Jahreseinspeisung", currentSupply )
@@ -155,7 +155,7 @@ class EnergyVZConsumption5MinRule:
 
         postUpdateIfChanged("Electric_VZ_Aktueller_Verbrauch",watt5Min)
 
-        if itemLastUpdateOlderThen("Electric_Meter_VZ_Verbrauch", getNow().minusMinutes(60)):
+        if itemLastUpdateOlderThen("Electric_Meter_VZ_Verbrauch", ZonedDateTime.now().minusMinutes(60)):
             self.log.error("Electric meter consumption values not updated")
 
 @rule("electricmeter.py")
@@ -168,17 +168,18 @@ class EnergyVZConsumptionRule:
 
     def execute(self, module, input):
       
-        now = getNow()
+        now = ZonedDateTime.now()
         zaehlerStandCurrent = getItemState("Electric_Meter_VZ_Verbrauch").doubleValue()
 
         # *** Tagesverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", now.withTimeAtStartOfDay() ).doubleValue()
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", now.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_VZ_Tagesverbrauch",currentConsumption)
 
         # *** Jahresverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", now.withDate(now.getYear(), 1, 1 ).withTimeAtStartOfDay()).doubleValue()
+        refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", refDay.toLocalDate().atStartOfDay(refDay.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_VZ_Jahresverbrauch", currentConsumption )
@@ -211,7 +212,7 @@ class EnergyHZDayConsumption5MinRule:
 
         postUpdateIfChanged("Electric_HZ_Tag_Aktueller_Verbrauch",watt5Min)
 
-        if itemLastUpdateOlderThen("Electric_Meter_HZ_Tag", getNow().minusMinutes(60)):
+        if itemLastUpdateOlderThen("Electric_Meter_HZ_Tag", ZonedDateTime.now().minusMinutes(60)):
             self.log.error("Electric meter HZ day consumption values not updated")
 
 @rule("electricmeter.py")
@@ -224,18 +225,19 @@ class EnergyHZDayConsumptionRule:
 
     def execute(self, module, input):
       
-        now = getNow()
+        now = ZonedDateTime.now()
         zaehlerStandCurrent = getItemState("Electric_Meter_HZ_Tag").doubleValue()
 
         # *** Tagesverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", now.withTimeAtStartOfDay() ).doubleValue()
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", now.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Tag_Tagesverbrauch",currentConsumption)
         postUpdateIfChanged("Electric_HZ_Tagesverbrauch",currentConsumption)
 
         # *** Jahresverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", now.withDate(now.getYear(), 1, 1 ).withTimeAtStartOfDay()).doubleValue()
+        refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", refDay.toLocalDate().atStartOfDay(refDay.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Tag_Jahresverbrauch", currentConsumption )
@@ -263,7 +265,7 @@ class EnergyHZNightConsumption5MinRule:
 
         postUpdateIfChanged("Electric_HZ_Nacht_Aktueller_Verbrauch",watt5Min)
 
-        if itemLastUpdateOlderThen("Electric_Meter_HZ_Nacht", getNow().minusMinutes(60)):
+        if itemLastUpdateOlderThen("Electric_Meter_HZ_Nacht", ZonedDateTime.now().minusMinutes(60)):
             self.log.error("Electric meter HZ night consumption values not updated")
 
 @rule("electricmeter.py")
@@ -276,17 +278,18 @@ class EnergyHZNightConsumptionRule:
 
     def execute(self, module, input):
       
-        now = getNow()
+        now = ZonedDateTime.now()
         zaehlerStandCurrent = getItemState("Electric_Meter_HZ_Nacht").doubleValue()
 
         # *** Tagesverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", now.withTimeAtStartOfDay() ).doubleValue()
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", now.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Nacht_Tagesverbrauch",currentConsumption)
 
         # *** Jahresverbrauch ***
-        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", now.withDate(now.getYear(), 1, 1 ).withTimeAtStartOfDay()).doubleValue()
+        refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", refDay.toLocalDate().atStartOfDay(refDay.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Nacht_Jahresverbrauch", currentConsumption )
@@ -314,12 +317,12 @@ class EnergyHZConsumptionRule:
         ]
 
     def execute(self, module, input):
-        tag = getItemState("Electric_HZ_Tag_Tagesverbrauch").intValue()
-        nacht = getItemState("Electric_HZ_Nacht_Tagesverbrauch").intValue()
+        tag = getItemState("Electric_HZ_Tag_Tagesverbrauch").doubleValue()
+        nacht = getItemState("Electric_HZ_Nacht_Tagesverbrauch").doubleValue()
         postUpdateIfChanged("Electric_HZ_Tagesverbrauch",tag+nacht)
 
-        tag = getItemState("Electric_HZ_Tag_Jahresverbrauch").intValue()
-        nacht = getItemState("Electric_HZ_Nacht_Jahresverbrauch").intValue()
+        tag = getItemState("Electric_HZ_Tag_Jahresverbrauch").doubleValue()
+        nacht = getItemState("Electric_HZ_Nacht_Jahresverbrauch").doubleValue()
         postUpdateIfChanged("Electric_HZ_Jahresverbrauch",tag+nacht)
         
         

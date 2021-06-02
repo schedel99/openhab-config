@@ -1,0 +1,4 @@
+Bridge tr064:fritzbox:fritzbox "FritzBox" [ host="{{server_gateway}}", user="{{vault_fritzbox_username}}", password="{{vault_fritzbox_password}}" ] 
+{
+}
+
