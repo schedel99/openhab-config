@@ -1,7 +1,7 @@
 from java.time import ZonedDateTime
 
 from shared.helper import rule, getItemState, itemStateOlderThen, itemStateNewerThen, getHistoricItemState, sendCommand, postUpdateIfChanged, itemLastUpdateOlderThen, getItemLastUpdate
-from core.triggers import CronTrigger, ItemStateChangeTrigger
+from shared.triggers import CronTrigger, ItemStateChangeTrigger
 
 from org.openhab.core.types.RefreshType import REFRESH
 

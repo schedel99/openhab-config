@@ -1,5 +1,5 @@
 from shared.helper import log, rule, getItemState, sendNotification
-from core.triggers import ItemStateChangeTrigger
+from shared.triggers import ItemStateChangeTrigger
 
 
 @rule("presence_detection.py")

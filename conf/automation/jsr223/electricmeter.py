@@ -2,7 +2,7 @@ from java.time import ZonedDateTime, Instant, ZoneId
 from java.time.format import DateTimeFormatter
  
 from shared.helper import rule, getHistoricItemEntry, getHistoricItemState, getItemLastUpdate, getItemState, postUpdate, postUpdateIfChanged, itemLastUpdateOlderThen
-from core.triggers import CronTrigger, ItemStateChangeTrigger
+from shared.triggers import CronTrigger, ItemStateChangeTrigger
 
 dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
@@ -174,8 +174,19 @@ class EnergyVZConsumptionRule:
         # *** Tagesverbrauch ***
         zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", now.toLocalDate().atStartOfDay(now.getZone())).doubleValue()
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
-
         postUpdateIfChanged("Electric_VZ_Tagesverbrauch",currentConsumption)
+
+        # *** Wochenverbrauch ***
+        ref = now.toLocalDate()
+        ref = ref.minusDays(ref.getDayOfWeek().getValue() - 1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", ref.atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+        postUpdateIfChanged("Electric_VZ_Wochenverbrauch",currentConsumption)
+
+        # *** Monatsverbrauch ***
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_VZ_Verbrauch", now.toLocalDate().withDayOfMonth(1).atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+        postUpdateIfChanged("Electric_VZ_Monatsverbrauch",currentConsumption)
 
         # *** Jahresverbrauch ***
         refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
@@ -233,7 +244,20 @@ class EnergyHZDayConsumptionRule:
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Tag_Tagesverbrauch",currentConsumption)
-        postUpdateIfChanged("Electric_HZ_Tagesverbrauch",currentConsumption)
+
+        # *** Wochenverbrauch ***
+        ref = now.toLocalDate()
+        ref = ref.minusDays(ref.getDayOfWeek().getValue() - 1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", ref.atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+
+        postUpdateIfChanged("Electric_HZ_Tag_Wochenverbrauch",currentConsumption)
+
+        # *** Monatsverbrauch ***
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Tag", now.toLocalDate().withDayOfMonth(1).atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+
+        postUpdateIfChanged("Electric_HZ_Tag_Monatsverbrauch",currentConsumption)
 
         # *** Jahresverbrauch ***
         refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
@@ -241,8 +265,6 @@ class EnergyHZDayConsumptionRule:
         currentConsumption = zaehlerStandCurrent - zaehlerStandOld
 
         postUpdateIfChanged("Electric_HZ_Tag_Jahresverbrauch", currentConsumption )
-        postUpdateIfChanged("Electric_HZ_Jahresverbrauch",currentConsumption)
-
 
 
 
@@ -287,6 +309,20 @@ class EnergyHZNightConsumptionRule:
 
         postUpdateIfChanged("Electric_HZ_Nacht_Tagesverbrauch",currentConsumption)
 
+        # *** Wochenverbrauch ***
+        ref = now.toLocalDate()
+        ref = ref.minusDays(ref.getDayOfWeek().getValue() - 1)
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", ref.atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+
+        postUpdateIfChanged("Electric_HZ_Nacht_Wochenverbrauch",currentConsumption)
+
+        # *** Monatsverbrauch ***
+        zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", now.toLocalDate().withDayOfMonth(1).atStartOfDay(now.getZone())).doubleValue()
+        currentConsumption = zaehlerStandCurrent - zaehlerStandOld
+
+        postUpdateIfChanged("Electric_HZ_Nacht_Monatsverbrauch",currentConsumption)
+
         # *** Jahresverbrauch ***
         refDay = now.withYear(now.getYear()).withMonth(1).withDayOfMonth(1)
         zaehlerStandOld = getHistoricItemState("Electric_Meter_HZ_Nacht", refDay.toLocalDate().atStartOfDay(refDay.getZone())).doubleValue()
@@ -320,6 +356,14 @@ class EnergyHZConsumptionRule:
         tag = getItemState("Electric_HZ_Tag_Tagesverbrauch").doubleValue()
         nacht = getItemState("Electric_HZ_Nacht_Tagesverbrauch").doubleValue()
         postUpdateIfChanged("Electric_HZ_Tagesverbrauch",tag+nacht)
+
+        tag = getItemState("Electric_HZ_Tag_Wochenverbrauch").doubleValue()
+        nacht = getItemState("Electric_HZ_Nacht_Wochenverbrauch").doubleValue()
+        postUpdateIfChanged("Electric_HZ_Wochenverbrauch",tag+nacht)
+
+        tag = getItemState("Electric_HZ_Tag_Monatsverbrauch").doubleValue()
+        nacht = getItemState("Electric_HZ_Nacht_Monatsverbrauch").doubleValue()
+        postUpdateIfChanged("Electric_HZ_Monatsverbrauch",tag+nacht)
 
         tag = getItemState("Electric_HZ_Tag_Jahresverbrauch").doubleValue()
         nacht = getItemState("Electric_HZ_Nacht_Jahresverbrauch").doubleValue()

@@ -57,7 +57,7 @@ sitemap haus label="Main Menu"
             }
             Frame label="Auswertung" {
                 Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
-                Webview url="/static/custom/grafana/strom_heizung.html?fromItem=Chart_From" height=14
+                Webview url="/static/custom/grafana/strom_heizung.html?fromItem=Chart_From" height=42
             }
         }
     }
@@ -74,9 +74,9 @@ sitemap haus label="Main Menu"
                 Text item=WeatherStation_Rain_Daily
             }
             Frame label="Wind" {
-                Text item=WeatherStation_Wind_Current
-                Text item=WeatherStation_Wind_Speed
-                Text item=WeatherStation_Wind_Gust
+                Text item=WeatherStation_Wind_Speed_1h label="Geschwindigkeit"
+                Text item=WeatherStation_Wind_Gust_1h label="Böen"
+                Text item=WeatherStation_Wind_Speed label="Aktuell"
                 Text item=WeatherStation_Wind_Direction
             }
             Frame label="Sonne" {
@@ -126,41 +126,30 @@ sitemap haus label="Main Menu"
         }
     }
     Frame label="Sonstiges" {
-        Group item=FritzboxDslStatus label="DSL Status [MAP(network_states.map):%s]" {
-            Frame label="Status" {
-                Text item=FritzboxDslEnable
-                Text item=FritzboxDslStatus
-                Text item=FritzboxUptime
-                Switch item=FritzboxGuestWifi
-            }
-            Frame label="WAN Verbindung" {
-                Text item=FritzboxWanAccessType
-                Text item=FritzboxWanPhysicalLinkStatus
-                Text item=FritzboxWanUpstreamCurrRate
-                Text item=FritzboxWanDownstreamCurrRate
-                Text item=FritzboxWanUpstreamMaxRate
-                Text item=FritzboxWanDownstreamMaxRate
-            }
-            Frame label="DSL Verbindung" {
-                Text item=FritzboxDslUpstreamCurrRate
-                Text item=FritzboxDslDownstreamCurrRate
-                Text item=FritzboxDslUpstreamMaxRate
-                Text item=FritzboxDslDownstreamMaxRate
-                Text item=FritzboxDslUpstreamNoiseMargin
-                Text item=FritzboxDslDownstreamNoiseMargin
-                Text item=FritzboxDslUpstreamAttenuation
-                Text item=FritzboxDslDownstreamAttenuation
-            }
-            Frame label="Fehler" {
-                Text item=FritzboxDslFECErrors
-                Text item=FritzboxDslHECErrors
-                Text item=FritzboxDslCRCErrors
-            }
-            Frame label="Auswertung" {
-                Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
-                Webview url="/static/custom/grafana/internet.html?fromItem=Chart_From" height=12
-            }
-        }
+        Group item=pGF_Fritzbox_WanPhysicalLinkStatus label="WAN Status [MAP(network_states.map):%s]" {
+                    Frame label="Status" {
+                        Text item=pGF_Fritzbox_Uptime
+                        Switch item=pGF_Fritzbox_GuestWifi
+                    }
+                    Frame label="WAN Verbindung" {
+                        Text item=pGF_Fritzbox_WanAccessType
+                        Text item=pGF_Fritzbox_WanPhysicalLinkStatus
+                        Text item=pGF_Fritzbox_WanUpstreamCurrRate
+                        Text item=pGF_Fritzbox_WanDownstreamCurrRate
+                    }
+                    Frame label="WAN Speedtest" {
+                        Text item=pGF_Speedtest_Time
+                        Text item=pGF_Speedtest_Location
+                        Text item=pGF_Speedtest_UpstreamRate
+                        Text item=pGF_Speedtest_DownstreamRate
+                        Text item=pGF_Speedtest_Ping
+                        Switch item=pGF_Speedtest_Rerun
+                    }
+                    Frame label="Auswertung" {
+                        Selection item=Chart_From mappings=[HOUR="Stunde", DAY="Tag", WEEK="Woche", MONTH="Monat", YEAR="Jahr", 5YEARS="5 Jahre"]
+                        Webview url="/static/custom/grafana/internet.html?fromItem=Chart_From" icon="none" height=36
+                    }
+                }
         Group item=State_Server {
             Frame label="Daten" {
                 Text item=State_Server
@@ -183,5 +172,10 @@ sitemap haus label="Main Menu"
             Switch item=Socket_Mobile_1
             Switch item=Socket_Mobile_2
         }
+    }
+    
+    Frame label="Shelly" {
+        Switch item=Water_Heating_Switch
+        Text item=Water_Heating_Consumption
     }
 }

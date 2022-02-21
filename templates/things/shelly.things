@@ -1,0 +1,3 @@
+Thing shelly:shellyplug:heizung "Heizung" @ "HWR" [deviceIp="{{shelly_socket_heating}}"]
+Thing shelly:shellydw:tuer "Tür" @ "Flur" [deviceIp="{{shelly_contact_door}}"]
+Thing shelly:shellyht:sensor "Sensor" @ "Haus" [deviceIp="{{shelly_sensor_temperature}}"]

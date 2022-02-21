@@ -1,6 +1,6 @@
-Switch State_Markus_Presence                  "Markus anwesend"       <selfinfo>          (PersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_markus" }                                                       
-Switch State_Dani_Presence                    "Dani anwesend"         <selfinfo>          (PersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_dani" }                                                
-Switch State_Oskar_Presence                   "Oskar anwesend"        <selfinfo>          (PersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_oskar" }                                                
+Switch State_Markus_Presence                  "Markus anwesend"       <selfinfo>          (gPersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_markus" }                                                       
+Switch State_Dani_Presence                    "Dani anwesend"         <selfinfo>          (gPersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_dani" }                                                
+Switch State_Oskar_Presence                   "Oskar anwesend"        <selfinfo>          (gPersistentHistory) { channel="mqtt:topic:mosquitto:device_ping:phone_oskar" }                                                
 
 
 

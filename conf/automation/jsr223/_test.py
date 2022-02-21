@@ -1,5 +1,5 @@
 from shared.helper import rule
-from core.triggers import CronTrigger
+from shared.triggers import CronTrigger
 
 @rule("_test.py")
 class TestRule:

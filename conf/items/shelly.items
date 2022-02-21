@@ -1,0 +1,7 @@
+Switch  Water_Heating_Switch           "Heizung Warmwasser"   <selfautomode>  ["Point"] { channel="shelly:shellyplug:heizung:relay#output" }
+Number Water_Heating_Consumption       "Verbrauch [%d W]"     <selfenergy> ["Point"] { channel="shelly:shellyplug:heizung:meter#currentWatts" }
+
+//Contact Door_Contact                   "Fensterkontakt [%s]"   <selfcontact> ["Point"] { channel="shelly:shellyht:sensor:device#alarm" }
+//Contact Temperatur_Sensor              "Temperatur [%.2f °C]"  <selftemperature> ["Point"] { channel="shelly:shellyht:sensor:device#alarm" }
+ 
+ 

@@ -6,7 +6,9 @@
 <body>
 <script>
     helper = new GrafanaBuilder([
-        [ "Verbrauch", "strom/strom", 2, 2, 2 ]
+        [ "Verbrauch", "strom/strom", 2, 2, 2 ],
+        [ "Wochenverbrauch", "qez6lfqGz/heizung", 2, { 'from': 'now-70d', 'to': 'now' } ],
+        [ "Monatsverbrauch", "qez6lfqGz/heizung", 11, { 'from': 'now-6M', 'to': 'now' } ]
     ]);
 </script>
 </body>
